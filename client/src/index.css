@@ -1,177 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
-:root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
-}
-
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
-}
-
-@layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
-  }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
-  }
-}
+@theme { --font-sans: "DM Sans", sans-serif; --font-display: "Manrope", sans-serif; }
+:root { font-family: "DM Sans", sans-serif; color: #17392f; background: #f7faf8; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: #f7faf8; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+button:active { transform: scale(.98); }
+.font-display { font-family: "Manrope", sans-serif; }
+.sidebar { position: fixed; z-index: 40; display: flex; height: 100vh; width: 248px; flex-direction: column; background: #143b31; padding: 26px 16px 18px; transition: transform .22s cubic-bezier(.23,1,.32,1); }
+.main-shell { min-height: 100vh; padding-left: 248px; }
+.topbar { position: sticky; top: 0; z-index: 20; display: flex; height: 76px; align-items: center; justify-content: space-between; border-bottom: 1px solid #e8eee9; background: rgba(247,250,248,.9); padding: 0 42px; backdrop-filter: blur(14px); }
+.content-area { max-width: 1440px; margin: 0 auto; padding: 42px; }
+.content-footer { display: flex; max-width: 1440px; margin: 0 auto; justify-content: space-between; padding: 0 42px 28px; color: #9aaba4; font-size: 10px; }
+.sidebar-link { display: flex; width: 100%; align-items: center; gap: 12px; border-radius: 11px; padding: 11px 12px; color: #93b3a3; text-align: left; font-size: 13px; font-weight: 600; transition: color .18s, background .18s, transform .18s; }
+.sidebar-link:hover { color: #e1f0e6; background: #1d493d; }
+.sidebar-link-active { color: #17392f; background: #b8e5c9; box-shadow: 0 5px 16px rgba(0,0,0,.08); }
+.sidebar-link-active:hover { color: #17392f; background: #b8e5c9; }
+.button-primary, .button-secondary, .button-light, .button-ghost-light { display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; padding: 10px 14px; font-size: 12px; font-weight: 700; transition: transform .16s, background .16s, border-color .16s, box-shadow .16s; }
+.button-primary { color: white; background: #1d5945; box-shadow: 0 4px 10px rgba(29,89,69,.14); }
+.button-primary:hover { background: #164836; box-shadow: 0 8px 16px rgba(29,89,69,.18); }
+.button-secondary { color: #527368; border: 1px solid #dfe8e1; background: white; }
+.button-secondary:hover { border-color: #b9d4c3; background: #f4faf5; }
+.button-light { color: #17392f; background: #b8e5c9; }
+.button-light:hover { background: #d1f0dc; }
+.button-ghost-light { color: #c9e3d1; border: 1px solid #4b7462; background: transparent; }
+.button-ghost-light:hover { background: #234c3f; }
+.icon-button { display: grid; height: 34px; width: 34px; place-items: center; border-radius: 9px; color: #759088; background: transparent; transition: background .18s, color .18s; }
+.icon-button:hover { color: #275d49; background: #edf4ef; }
+.field-label { display: block; margin-bottom: 8px; color: #648076; font-size: 11px; font-weight: 700; letter-spacing: .02em; }
+.input-wrap { display: flex; min-height: 42px; align-items: center; gap: 9px; border: 1px solid #dfe8e1; border-radius: 10px; background: #fff; padding: 0 12px; color: #405e52; font-size: 13px; transition: border .18s, box-shadow .18s; }
+.input-wrap:focus-within { border-color: #7ab293; box-shadow: 0 0 0 3px #e2f1e7; }
+.form-control { width: 100%; border: 1px solid #dfe8e1; border-radius: 10px; background: #fff; padding: 10px 12px; color: #35574a; font-size: 13px; outline: none; transition: border .18s, box-shadow .18s; }
+.form-control:focus { border-color: #7ab293; box-shadow: 0 0 0 3px #e2f1e7; }
+.form-control::placeholder, input::placeholder, textarea::placeholder { color: #a4b2ac; }
+.select-compact { height: 36px; border: 1px solid #dfe8e1; border-radius: 9px; background: white; padding: 0 10px; color: #55756a; font-size: 11px; font-weight: 600; outline: none; }
+.card-lift { box-shadow: 0 7px 20px rgba(28,70,53,.035); transition: box-shadow .2s, transform .2s; }
+.card-lift:hover { box-shadow: 0 10px 25px rgba(28,70,53,.06); }
+.data-table { width: 100%; min-width: 660px; border-collapse: collapse; text-align: left; font-size: 12px; color: #71877d; }
+.data-table th { padding: 0 12px 12px; color: #97a79f; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.data-table td { border-top: 1px solid #edf1ee; padding: 14px 12px; white-space: nowrap; }
+.data-table th:first-child, .data-table td:first-child { padding-left: 0; }
+.data-table th:last-child, .data-table td:last-child { padding-right: 0; text-align: right; }
+.soft-stat { display: flex; align-items: center; gap: 8px; border-radius: 10px; background: #f6f9f7; padding: 11px 13px; color: #60796e; font-size: 12px; font-weight: 600; }
+.action-tile { display: flex; align-items: center; gap: 8px; border: 1px solid #edf1ee; border-radius: 10px; padding: 11px 10px; color: #58756a; font-size: 11px; font-weight: 700; text-align: left; transition: border .18s, background .18s, color .18s; }
+.action-tile:hover { border-color: #bcd9c6; background: #f3faf5; color: #287454; }
+.balance-card { border-radius: 16px; padding: 20px; }
+.suggestion { border: 1px solid #d4e7da; border-radius: 999px; background: rgba(255,255,255,.8); padding: 8px 11px; color: #5c7f6e; font-size: 11px; font-weight: 600; transition: border .18s, background .18s; }
+.suggestion:hover { border-color: #9ec9ae; background: #fff; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; background: rgba(16,46,37,.4); padding: 20px; backdrop-filter: blur(5px); }
+.modal-card { width: min(100%, 560px); border: 1px solid #e2ebe4; border-radius: 20px; background: #fff; padding: 26px; box-shadow: 0 24px 70px rgba(18,55,40,.2); }
+@media (max-width: 1023px) { .sidebar { transform: translateX(-105%); box-shadow: 20px 0 40px rgba(15,50,37,.25); } .sidebar-open { transform: translateX(0); } .main-shell { padding-left: 0; } .topbar { padding: 0 22px; } .content-area { padding: 32px 22px; } .content-footer { padding: 0 22px 24px; } }
+@media (max-width: 640px) { .content-area { padding: 28px 16px; } .topbar { height: 68px; padding: 0 16px; } .content-footer { padding: 0 16px 20px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
