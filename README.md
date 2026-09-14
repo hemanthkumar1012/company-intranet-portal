@@ -1,182 +1,138 @@
-# Northstar Intranet
+# Company Intranet Portal
 
-Northstar Intranet is a multi-tenant company operations portal for attendance, leave management, employee records, biometric device synchronization, payslip messaging, and policy assistance. The project includes a responsive employee experience and an administrator control room with role-based navigation.
+This repository now contains the implementation required by the supplied **Company Intranet Portal – Developer Build Sheet**.
 
-> **Current implementation:** The UI is fully interactive and includes a demo workspace for validation. The server exposes the requested tRPC contracts and the managed database contains the core intranet schema. External WhatsApp, biometric, payroll, and production identity credentials must be connected before operational deployment.
+## Required stack
 
-## Features
+- Frontend: **Next.js** (App Router)
+- Backend: **Node.js + Express**
+- Database: **MongoDB / Mongoose**
+- Authentication: **JWT + bcryptjs**
+- HTTP client: **Axios**
 
-| Area | Included capability |
-| --- | --- |
-| Workspace access | Company subdomain login, demo admin view, demo employee view, and role-based navigation |
-| Attendance | Admin live-style attendance table, employee attendance history, check-in/check-out API contracts, WhatsApp webhook contract, and biometric sync contract |
-| Leave | Employee leave request form, balances, request history, admin approval and decline actions |
-| People | Employee directory, search/filter presentation, and add-employee modal |
-| Devices | eSSL and Matrix device inventory, sync status, and sync-now interaction |
-| Payslips | Month selection, WhatsApp send workflow, delivery progress, and send archive presentation |
-| Policy assistant | Policy suggestions, contextual answers, policy library entry point, and server-side policy search contract |
-| Quality | TypeScript validation, production build, Vitest coverage, and browser verification |
-
-## Technology
-
-The application uses the following architecture:
-
-| Layer | Technology |
-| --- | --- |
-| Frontend | React 19, Vite, TypeScript, Tailwind CSS, Lucide icons |
-| Backend | Node.js, Express, tRPC |
-| Database | MySQL/TiDB through Drizzle ORM |
-| Authentication foundation | Manus OAuth scaffold with server-side context support |
-| Testing | Vitest and TypeScript compiler checks |
-| Runtime | Managed WebDev development server and Node production bundle |
-
-## Repository Structure
+## Repository structure
 
 ```text
-client/
-  index.html
+backend/
   src/
-    App.tsx                 # Application shell and theme providers
-    index.css               # Northstar visual system and responsive layout styles
-    pages/Home.tsx          # Login, dashboard, feature views, and interactions
+    app.js
+    config/db.js
+    middleware/auth.js
+    models/
+      Company.js
+      User.js
+      Attendance.js
+      Leave.js
+      Policy.js
+      BiometricDevice.js
+      WhatsAppAttendanceLog.js
+    routes/
+      auth.js
+      attendance.js
+      leave.js
+      biometric.js
+      payslip.js
+      ai.js
+  .env.example
+  package.json
 
-drizzle/
-  schema.ts                 # Users, companies, employees, attendance, leave, policies, devices, logs
-  migrations/               # Generated database migrations
-
-server/
-  routers.ts                # tRPC API contracts and demo service state
-  db.ts                     # Drizzle database connection and user helpers
-  intranet.test.ts          # Intranet API tests
-  auth.logout.test.ts       # Authentication logout test
-  _core/                    # Managed WebDev server, OAuth, storage, and runtime infrastructure
-
-README.md
-package.json
+frontend/
+  app/
+    login/page.jsx
+    register/page.jsx
+    admin/page.jsx
+    employee/page.jsx
+    attendance/page.jsx
+    leave/page.jsx
+    biometric/page.jsx
+    payslip/send/page.jsx
+    ai-assistant/page.jsx
+  lib/api.js
+  .env.example
+  package.json
 ```
 
-## Getting Started
+## Implemented build-sheet workflows
 
-### Requirements
+- Company registration with unique subdomain.
+- Admin login and employee login using subdomain + email + password.
+- Admin employee creation.
+- Employee check-in and check-out.
+- Employee attendance history.
+- Admin today-attendance view.
+- Leave application and admin approval.
+- WhatsApp `IN`/`OUT` webhook attendance logging.
+- Biometric device registration and sync endpoint for eSSL/Matrix event feeds.
+- Payslip PDF generation endpoint and WhatsApp delivery integration point.
+- Policy assistant using company-scoped policy search.
+- Multi-tenant filtering through `companyId` on authenticated operations.
+- Environment templates and GitHub Actions validation for both applications.
 
-Use Node.js 22 or a compatible current Node.js release. Use `pnpm` for dependency management. The managed WebDev environment supplies the database and runtime environment variables when the project is opened through WebDev.
+## Run locally
 
-### Install dependencies
+### Backend
 
 ```bash
-pnpm install
+cd backend
+npm install
+copy .env.example .env
+npm run dev
 ```
 
-### Start the development server
+Backend runs on port **5000** by default.
+
+Required `.env` values:
+
+```env
+MONGO_URI=your-mongodb-atlas-uri
+JWT_SECRET=your-long-random-secret
+WHATSAPP_TOKEN=your-whatsapp-token
+WHATSAPP_PHONE_NUMBER_ID=your-whatsapp-phone-number-id
+FRONTEND_URL=http://localhost:3000
+PORT=5000
+```
+
+### Frontend
 
 ```bash
-pnpm dev
+cd frontend
+npm install
+copy .env.example .env.local
+npm run dev
 ```
 
-The development server runs the Vite client and the Express/tRPC server together. The managed project preview is available from the WebDev project dashboard.
+Frontend runs on port **3000**.
 
-### Build the production bundle
+Set `NEXT_PUBLIC_API_URL=http://localhost:5000/api` for local development.
 
-```bash
-pnpm build
-```
+## MongoDB Atlas
 
-### Start the production bundle
+Create an Atlas cluster, create a database user, allow the required client IP range, and place the generated connection string in `backend/.env`. Do not commit credentials.
 
-```bash
-pnpm start
-```
+## API surface
 
-## Demo Access
-
-The login screen includes two preview roles. Select the role before signing in.
-
-| Role | Email | Password | Result |
-| --- | --- | --- | --- |
-| Admin | `aarav@northstar.co` | `northstar` | Admin dashboard with People, Devices, Payslips, and approval controls |
-| Employee | `maya@northstar.co` | `northstar` | Employee dashboard with attendance, leave, and policy assistant views |
-
-The workspace field is a presentation of the company subdomain. The server demo login contract validates the `northstar` subdomain.
-
-## API Contracts
-
-The server router implements the core workflows from the developer build sheet.
-
-| Router | Procedures |
+| API | Method |
 | --- | --- |
-| `auth` | `companyRegister`, `login`, `addEmployee`, `me`, `logout` |
-| `attendance` | `checkin`, `checkout`, `my`, `todayAll`, `whatsappWebhook`, `biometricSync` |
-| `leave` | `applyRequest`, `list`, `approve` |
-| `biometric` | `list`, `sync` |
-| `payslip` | `sendWhatsapp` |
-| `ai` | `policyAsk` |
+| `/api/auth/company-register` | POST |
+| `/api/auth/login` | POST |
+| `/api/auth/add-employee` | POST |
+| `/api/attendance/checkin` | POST |
+| `/api/attendance/checkout` | POST |
+| `/api/attendance/my` | GET |
+| `/api/attendance/today-all` | GET |
+| `/api/leave/apply` | POST |
+| `/api/leave/list` | GET |
+| `/api/leave/:id/approve` | PUT |
+| `/api/attendance/whatsapp/webhook` | POST |
+| `/api/biometric/sync` | POST |
+| `/api/biometric/devices` | GET |
+| `/api/payslip/send-whatsapp` | POST |
+| `/api/ai/policy-ask` | POST |
 
-The current router stores demo workflow state in memory so the preview works without seeded production records. The schema and database helper are ready for replacing those demo collections with Drizzle queries.
+## Notes on external integrations
 
-## Database Schema
+The build sheet specifies `WHATSAPP_TOKEN` and device integration requirements but does not provide provider credentials or the exact eSSL/Matrix device protocol. The code therefore exposes the required API contracts and data flow without inventing vendor credentials or undocumented device protocols. The payslip endpoint generates a PDF for each employee and reports whether WhatsApp delivery is configured; the provider-specific sender can be attached using the supplied WhatsApp credentials.
 
-The migration creates the following tables:
+## Verification
 
-| Table | Purpose |
-| --- | --- |
-| `users` | Manus-authenticated user records |
-| `companies` | Company name and unique subdomain |
-| `employees` | Employee identity, role, department, phone, and employee ID |
-| `attendance` | Daily check-in, check-out, status, and source |
-| `leave_requests` | Sick/casual leave dates, reason, and approval status |
-| `policies` | Searchable company policy content and optional file URL |
-| `biometric_devices` | eSSL/Matrix device identity, health, and last sync |
-| `whatsapp_attendance_logs` | WhatsApp attendance event history |
-
-The generated migration is stored under `drizzle/`. For schema changes, update `drizzle/schema.ts`, generate a migration, review the SQL, and apply it through the managed WebDev database workflow.
-
-## Testing and Validation
-
-Run the complete automated suite with:
-
-```bash
-pnpm test
-```
-
-Run the TypeScript check with:
-
-```bash
-pnpm check
-```
-
-The current test suite covers logout cookie behavior, company login, attendance check-in/check-out, leave application and approval, and policy matching.
-
-The final verified baseline is:
-
-| Check | Result |
-| --- | --- |
-| Vitest files | 2 passed |
-| Vitest tests | 5 passed |
-| TypeScript | Passed |
-| Production build | Passed |
-| Browser verification | Login, admin dashboard, leave approval, employee dashboard, and policy assistant verified |
-
-## Production Integration Checklist
-
-Before using Northstar with real employee data, complete the following integrations:
-
-1. Replace demo login state with the intended company authentication flow and password hashing.
-2. Replace in-memory router collections with Drizzle queries and mutations.
-3. Configure the MongoDB/WhatsApp requirements from the original build sheet or map them to the managed MySQL/TiDB database and approved messaging provider.
-4. Add the real WhatsApp API token and webhook verification settings through the project secret manager.
-5. Connect eSSL and Matrix device adapters and validate employee phone and employee-ID mapping.
-6. Add payslip PDF generation or storage references and connect the payroll delivery provider.
-7. Add audit logging, rate limiting, input validation, and data retention rules before handling production records.
-8. Seed the policy library and add file storage for policy documents.
-
-## Design Direction
-
-The interface uses a deep green navigation shell, warm paper-like surfaces, soft green/amber status colors, DM Sans for operational text, and Manrope for headings. The visual system is intentionally quiet and high-contrast so presence, approvals, and exceptions remain easy to scan during a busy workday.
-
-## License
-
-This project is currently maintained as a private company workspace application. Add a formal license before distributing it outside the owning organization.
-
-## References
-
-[1]: https://github.com/hemanthkumar1012/company-intranet-portal "Northstar Intranet GitHub repository"
+GitHub Actions workflow `.github/workflows/pdf-compliance.yml` installs the backend and checks the server/routes for syntax errors, then installs the frontend and runs a production Next.js build.
