@@ -1,7 +1,14 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import Nav from '../components/Nav';
 import { api } from '../../lib/api';
+
+function formatDate(value) {
+  if (!value) return '-';
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? String(value).slice(0, 10) : date.toISOString().slice(0, 10);
+}
 
 export default function Leave() {
   const [f, setF] = useState({ type: 'casual', fromDate: '', toDate: '', reason: '' });
@@ -63,20 +70,14 @@ export default function Leave() {
         <h2>Requests</h2>
         <table className="table">
           <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Type</th>
-              <th>Dates</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
+            <tr><th>Employee</th><th>Type</th><th>Dates</th><th>Status</th><th></th></tr>
           </thead>
           <tbody>
             {rows.map((x) => (
               <tr key={x._id}>
                 <td>{x.userId?.name || '-'}</td>
                 <td>{x.type}</td>
-                <td>{String(x.fromDate).slice(0, 10)} to {String(x.toDate).slice(0, 10)}</td>
+                <td>{formatDate(x.fromDate)} to {formatDate(x.toDate)}</td>
                 <td>{x.status}</td>
                 <td>{x.status === 'pending' ? <button className="btn success" onClick={() => approve(x._id)}>Approve</button> : null}</td>
               </tr>
