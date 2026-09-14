@@ -1,3 +1,94 @@
 'use client';
-import {useEffect,useState} from 'react';import Nav from '../components/Nav';import {api} from '../../lib/api';
-export default function Biometric(){const [devices,setDevices]=useState([]),[f,setF]=useState({deviceId:'',type:'eSSL'}),[msg,setMsg]=useState('');const load=()=>api.get('/biometric/devices').then(r=>setDevices(r.data)).catch(e=>setMsg(e.response?.data?.message||'Please login as admin'));useEffect(load,[]);const add=async e=>{e.preventDefault();try{const companyId=localStorage.getItem('companyId');await api.post('/biometric/sync',{companyId,deviceId:f.deviceId,type:f.type,events:[]});setMsg('Device registered and synced');setF({deviceId:'',type:'eSSL'});load()}catch(e){setMsg(e.response?.data?.message||'Failed')}};return <main className="container"><Nav/><div className="card"><h1>Biometric Devices</h1><form onSubmit={add} className="grid grid2"><input className="input" placeholder="Device ID" value={f.deviceId} onChange={e=>setF({...f,deviceId:e.target.value})} required/><select className="input" value={f.type} onChange={e=>setF({...f,type:e.target.value})}><option>eSSL</option><option>Matrix</option></select><button className="btn" type="submit">Add / Sync Device</button></form>{msg&&<p>{msg}</p>}</div><div className="card"><table className="table"><thead><tr><th>Device ID</th><th>Type</th><th>Last Sync</th><th>Status</th></tr></thead><tbody>{devices.map(d=><tr key={d._id}><td>{d.deviceId}</td><td>{d.type}</td><td>{d.lastSync?new Date(d.lastSync).toLocaleString():'-'}</td><td>{d.status}</td></tr>)}</tbody></table></div></main>}
+
+import { useEffect, useState } from 'react';
+import Nav from '../components/Nav';
+import { api } from '../../lib/api';
+
+export default function Biometric() {
+  const [devices, setDevices] = useState([]);
+  const [f, setF] = useState({ deviceId: '', type: 'eSSL' });
+  const [msg, setMsg] = useState('');
+
+  const load = async () => {
+    try {
+      const { data } = await api.get('/biometric/devices');
+      setDevices(data);
+    } catch (e) {
+      setMsg(e.response?.data?.message || 'Please login as admin');
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const add = async (e) => {
+    e.preventDefault();
+    try {
+      const companyId = localStorage.getItem('companyId');
+      await api.post('/biometric/sync', {
+        companyId,
+        deviceId: f.deviceId,
+        type: f.type,
+        events: [],
+      });
+      setMsg('Device registered and synced');
+      setF({ deviceId: '', type: 'eSSL' });
+      load();
+    } catch (e) {
+      setMsg(e.response?.data?.message || 'Failed');
+    }
+  };
+
+  return (
+    <main className="container">
+      <Nav />
+      <div className="card">
+        <h1>Biometric Devices</h1>
+        <form onSubmit={add} className="grid grid2">
+          <input
+            className="input"
+            placeholder="Device ID"
+            value={f.deviceId}
+            onChange={(e) => setF({ ...f, deviceId: e.target.value })}
+            required
+          />
+          <select
+            className="input"
+            value={f.type}
+            onChange={(e) => setF({ ...f, type: e.target.value })}
+          >
+            <option value="eSSL">eSSL</option>
+            <option value="Matrix">Matrix</option>
+          </select>
+          <button className="btn" type="submit">
+            Add / Sync Device
+          </button>
+        </form>
+        {msg && <p>{msg}</p>}
+      </div>
+      <div className="card">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Device ID</th>
+              <th>Type</th>
+              <th>Last Sync</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {devices.map((d) => (
+              <tr key={d._id}>
+                <td>{d.deviceId}</td>
+                <td>{d.type}</td>
+                <td>{d.lastSync ? new Date(d.lastSync).toLocaleString() : '-'}</td>
+                <td>{d.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
